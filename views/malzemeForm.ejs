@@ -1,0 +1,18 @@
+<%- include("navbar",{title: "Yol Oluştur" }) %>
+    <main>
+        <div class="banner">Sefer Yol Oluştur</div>
+
+        <form action="/new" method="post">
+            <label>
+                Sefer Adı
+                <input name="name" id="name" type="text" placeholder="Kastamonu Samsun Kül" required>
+            </label>
+            <label>
+                Sefer birim fiyat
+                <input name="price" id="price" type="number" required>
+            </label>
+
+            <button type="submit">Oluştur</button>
+        </form>
+    </main>
+    <%- include("footer") %>

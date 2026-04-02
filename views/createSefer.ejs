@@ -1,0 +1,39 @@
+<%- include("navbar",{title: "Sefer Oluştur" }) %>
+    <main>
+        <div class="banner">Sefer Oluştur</div>
+
+        <form action="/sefer/new" method="post">
+            <label>
+                Şoför Ad Soyad
+                <input name="driver_name" id="driver_name" type="text" placeholder="Umut Başar" required>
+                <input type="hidden" value="<%=malzeme.id%>" name="malzeme_id">
+            </label>
+            <label>
+                Ödeme Türü
+                <select name="pay_type">
+                    <option>Nakit</option>
+                    <option>Havale</option>
+                </select>
+            </label>
+            <label>
+                Sefer Sayısı
+                <input type="number" id="sefer_qty" name="sefer_qty">
+            </label>
+            <label>
+                Ödenen Tutar
+                <input type="number" id="total_payout" name="total_payout">
+            </label>
+
+            <button type="submit">Oluştur</button>
+        </form>
+    </main>
+    <script>
+        const total_payoutInput = document.querySelector("#total_payout")
+        const sefer_qty = document.querySelector("#sefer_qty")
+        const unitPrice = <%= malzeme.price %>
+            sefer_qty.addEventListener("input", (e) => {
+                if (e.target.value < 0) return
+                total_payoutInput.value = unitPrice * e.target.value
+            })
+    </script>
+    <%- include("footer") %>
