@@ -3,6 +3,7 @@ import { config } from "dotenv"
 import path from "node:path"
 import driverRouter from "./routes/driverRouter.js"
 import seferRouter from "./routes/seferRouter.js"
+import odemeRouter from "./routes/odemeRouter.js"
 config()
 const app = express()
 
@@ -17,6 +18,7 @@ app.set("views", path.resolve(__dirname,"views"))
 
 
 app.use("/sefer", seferRouter)
+app.use("/odeme", odemeRouter)
 app.use("/", driverRouter)
 
 

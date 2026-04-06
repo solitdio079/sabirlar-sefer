@@ -18,8 +18,8 @@
                 <%= driver.tckn %>
             </span>
 
-            <a href="/odeme/">Ödemelere Git</a>
-            <a href="/odeme/new"><i class="fa-solid fa-plus"></i> Ödeme Ekle</a>
+            <a href="/odeme/?driverId=<%=driver.id%>">Ödemelere Git</a>
+            <a href="/odeme/new/<%=driver.id%>"><i class="fa-solid fa-plus"></i> Ödeme Ekle</a>
             <a href="/update/<%= driver.id %>" class="secondary"><i class="fa-solid fa-pen"></i></a>
 
             <form method="post" action="/delete/<%=driver.id%>">

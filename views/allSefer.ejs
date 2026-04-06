@@ -18,7 +18,7 @@
                 <%= sefer.price %> TL
             </span>
 
-            <a href="/odeme/">Ödemelere Git</a>
+            <a href="/odeme/?seferId=<%=sefer.id%>">Ödemelere Git</a>
             <a href="/sefer/edit/<%= sefer.id %>" class="secondary"><i class="fa-solid fa-pen"></i></a>
 
             <form method="post" action="/sefer/delete/<%=sefer.id%>">

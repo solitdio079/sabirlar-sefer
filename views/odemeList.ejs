@@ -1,0 +1,39 @@
+<%- include("navbar",{title:"Ana Sayfa"}) %>
+    <main>
+    <div class="banner"><%=title%></div>
+   
+    <a href="/" class="text-lg my-5"><i class="fa-solid fa-plus"></i>Ana Sayfa</a>
+   
+    
+
+    <% odemeList.forEach(odeme => {%>
+        <div class="row">
+            <span>
+                <%= odeme.driver_name %>
+            </span>
+            <span>
+                <%= odeme.sefer_name %>
+            </span>
+            <span>
+                <%= odeme.sefer_date %>
+            </span>
+            <span>
+                <%= odeme.pay_type %>
+            </span>
+            <span>
+                <%= odeme.payout %> TL
+            </span>
+
+           
+           
+            <a href="/odeme/update/<%=odeme.driver_id%>/<%= odeme.id %>" class="secondary"><i class="fa-solid fa-pen"></i></a>
+
+            <form method="post" action="/odeme/delete/<%=odeme.id%>">
+                <button class="error" type="submit"><i class="fa-solid fa-trash"></i></button>
+            </form>
+        </div>
+        <%})%>
+
+        <div class="total">Toplam ödenen tutar: <%= toplam %> TL</div> 
+    </main>
+<%- include("footer") %>

@@ -1,0 +1,89 @@
+<%- include("navbar",{title: "Odeme Oluştur" }) %>
+    <main>
+        <div class="banner">
+            <%= driver.name %> için Ödeme Oluştur
+        </div>
+
+        <form action="/odeme/new" method="post">
+            <input type="hidden" name="driver_id" value="<%= driver.id%>">
+            <input type="hidden" name="driver_name" value="<%= driver.name%>">
+            <label>
+                Sefer
+                <select id="sefer_select">
+                    <% seferList.forEach(sefer=> { %>
+                        <option value="<%= sefer.id%>,<%= sefer.name%>,<%= sefer.price%>">
+                            <%= sefer.name%>
+                        </option>
+
+                        <% }) %>
+                </select>
+            </label>
+            <label>
+                Sefer Tarihi
+                <input type="date" id="sefer_date" name="sefer_date">
+                <input type="hidden" id="sefer_id" name="sefer_id">
+                <input type="hidden" id="sefer_name" name="sefer_name">
+                <input type="hidden" id="sefer_price" name="sefer_price">
+            </label>
+
+             <label>
+                Sefer Sayısı
+                <input type="number" id="sefer_qty" name="sefer_qty">
+               
+            </label>
+
+            <label>
+                Ödeme Şekli
+                <select name="pay_type" id="pay_type">
+                    <option>Nakit</option>
+                    <option>Havale</option>
+                </select>
+            </label>
+            <label>
+                Ödenen Tutar
+                <input type="number" name="payout" id="payout">
+            </label>
+
+            <button type="submit">Oluştur</button>
+        </form>
+    </main>
+    <script>
+        const sefer_select = document.querySelector("#sefer_select")
+        const payoutInput = document.querySelector("#payout")
+        const seferQtyInput = document.querySelector("#sefer_qty")
+        const seferIDInput = document.querySelector("#sefer_id")
+        const seferNameInput = document.querySelector("#sefer_name")
+        const seferPriceInput = document.querySelector("#sefer_price")
+
+        let sefer = sefer_select.value.split(",")
+        let sefer_id = sefer[0]
+        let sefer_price = parseInt(sefer[2])
+        let sefer_name = sefer[1]
+
+        seferNameInput.value = sefer_name
+        seferIDInput.value = sefer_id
+        seferPriceInput.value = sefer_price
+        payoutInput.value = sefer_price
+
+
+        seferQtyInput.addEventListener("input", (e)=>{
+            payoutInput.value = sefer_price * e.target.value
+        } )
+
+        sefer_select.addEventListener("change", (e) => {
+            sefer = e.target.value.split(",")
+            sefer_id = sefer[0]
+            sefer_price = parseInt(sefer[2])
+            sefer_name = sefer[1]
+
+            seferNameInput.value = sefer_name
+            seferIDInput.value = sefer_id
+            seferPriceInput.value = sefer_price
+             payoutInput.value = sefer_price * (seferQtyInput.value||1)
+
+        })
+
+
+    </script>
+
+    <%- include("footer") %>

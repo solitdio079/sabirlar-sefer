@@ -54,4 +54,37 @@ async function searchSefer(query){
     return rows
 }
 
-export default { createDriver, createSefer, editSefer, searchSefer,getAllSefer,  getOneSefer, deleteSefer,getAllDrivers, getOneDriver,searchDriver,deleteDriver, editDriver }
+//
+
+async function createOdeme(sefer_date,sefer_id,sefer_name,sefer_price,driver_id,driver_name,pay_type,payout,sefer_qty){
+    await pool.query(`INSERT INTO odeme (sefer_date,sefer_id,sefer_name,sefer_price,driver_id,driver_name,pay_type,payout,sefer_qty) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,[sefer_date,sefer_id,sefer_name,sefer_price,driver_id,driver_name,pay_type,payout,sefer_qty])
+
+}
+
+async function getAllOdeme(){
+    const {rows} = await pool.query(`SELECT * FROM odeme`)
+    return rows
+}
+async function getOneOdeme(id){
+    const {rows} = await pool.query(`SELECT * FROM odeme WHERE id=$1`,[id])
+    return rows[0]
+}
+
+async function getDriverOdeme(driverId){
+    const {rows} = await pool.query(`SELECT * FROM odeme WHERE driver_id = $1`,[driverId])
+    return rows
+}
+async function getSeferOdeme(seferId){
+    const {rows} = await pool.query(`SELECT * FROM odeme WHERE sefer_id = $1`,[seferId])
+    return rows
+}
+
+async function updateOdeme(id,sefer_date,sefer_id,sefer_name,sefer_price,driver_id,driver_name,pay_type,payout,sefer_qty){
+    await pool.query(`UPDATE odeme SET sefer_date=$1,sefer_id=$2,sefer_name=$3,sefer_price=$4,driver_id=$5,driver_name=$6,pay_type=$7,payout=$8,sefer_qty=$9 WHERE id=$10`,[sefer_date,sefer_id,sefer_name,sefer_price,driver_id,driver_name,pay_type,payout,sefer_qty,id])
+}
+
+async function deleteOdeme(id){
+    await pool.query(`DELETE FROM odeme WHERE id=$1`,[id])
+}
+
+export default {createOdeme, getOneOdeme,getAllOdeme,deleteOdeme,updateOdeme,getAllOdeme,getDriverOdeme, getSeferOdeme ,createDriver, createSefer, editSefer, searchSefer,getAllSefer,  getOneSefer, deleteSefer,getAllDrivers, getOneDriver,searchDriver,deleteDriver, editDriver }
