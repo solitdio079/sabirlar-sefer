@@ -1,0 +1,19 @@
+<%- include("navbar",{title: "Şoför Değiştir" }) %>
+    <main>
+        <div class="banner">Şoför Değiştir</div>
+
+        <form action="/update/<%= driver.id %>" method="post">
+            <label>
+                Şoför Adı
+                <input name="name" id="name" type="text" value="<%= driver.name %>" required>
+            </label>
+            <label>
+                Şoför TCKN
+                <input name="tckn" id="tckn" type="text" value="<%= driver.tckn %>" required>
+            </label>
+
+            <button type="submit">Değiştir</button>
+        </form>
+    </main>
+
+    <%- include("footer") %>

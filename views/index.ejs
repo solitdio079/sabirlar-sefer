@@ -5,22 +5,24 @@
         <input type="text" name="arama">
         <button type="submit"><i class="fa-solid fa-search"></i> Ara</button>
     </form>
-    <a href="/new" class="text-lg my-5"><i class="fa-solid fa-plus"></i> Yol Ekle</a>
+    <a href="/new" class="text-lg my-5"><i class="fa-solid fa-plus"></i>Şoför Ekle</a>
+    <a href="/sefer" class="text-lg my-5">Seferleri Yönet</a>
+    
 
-    <% malzemeList.forEach(malzeme=> {%>
+    <% driverList.forEach(driver => {%>
         <div class="row">
             <span>
-                <%= malzeme.name %>
+                <%= driver.name %>
             </span>
             <span>
-                <%= malzeme.price %> TL
+                <%= driver.tckn %>
             </span>
 
-            <a href="/sefer/malzeme/<%= malzeme.id %>">Seferlere Git</a>
-            <a href="/sefer/new/<%= malzeme.id %>"><i class="fa-solid fa-plus"></i> Sefer Ekle</a>
-            <a href="/update/<%= malzeme.id %>" class="secondary"><i class="fa-solid fa-pen"></i></a>
+            <a href="/odeme/">Ödemelere Git</a>
+            <a href="/odeme/new"><i class="fa-solid fa-plus"></i> Ödeme Ekle</a>
+            <a href="/update/<%= driver.id %>" class="secondary"><i class="fa-solid fa-pen"></i></a>
 
-            <form method="post" action="/delete/<%= malzeme.id %>">
+            <form method="post" action="/delete/<%=driver.id%>">
                 <button class="error" type="submit"><i class="fa-solid fa-trash"></i></button>
             </form>
         </div>

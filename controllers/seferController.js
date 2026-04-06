@@ -3,19 +3,13 @@ import db from "../db/queries.js"
 
 
 const validateSefer= [
-    body("driver_name").trim().notEmpty().withMessage("Lütfen şoför adını giriniz."),
-    body("pay_type").notEmpty().withMessage("Lütfen ödeme yöntemi seçiniz."),
-    body("malzeme_id").isUUID().withMessage("Malzeme ID must be a UUID"),
-    body("sefer_qty").isNumeric().withMessage("Lütfen sefer sayısı giriniz"),
-    body("total_payout").isNumeric().withMessage("Lütfen ödenen tutar giriniz!")
+    body("name").trim().notEmpty().withMessage("Lütfen şoför adını giriniz."),
+    body("price").isNumeric().withMessage("Lütfen sefer fiyatı giriniz."),
 ]
 
 
 async function getCreateSeferForm(req,res){
-    const {malzemeId} = req.params
-    const malzeme = await db.getOneMalzeme(malzemeId)
-   // console.log(malzeme)
-    return res.render("createSefer", {malzeme})
+    return res.render("createSefer")
 }
 
 const createSefer = [...validateSefer, async(req,res) => {
@@ -24,10 +18,10 @@ const createSefer = [...validateSefer, async(req,res) => {
         return res.send({ error: errors.array() })
     }
 
-    const { driver_name, malzeme_id,pay_type,sefer_qty,total_payout } = matchedData(req)
-    const date = new Date()
-    await db.createSefer(driver_name,malzeme_id,pay_type,date,total_payout,sefer_qty)
-    return res.redirect(`/sefer/malzeme/${malzeme_id}`)
+    const { name,price } = matchedData(req)
+    //const date = new Date()
+    await db.createSefer(name,price)
+    return res.redirect(`/sefer`)
 }]
 
 const updateSefer = [...validateSefer, async(req,res) => {
@@ -37,36 +31,29 @@ const updateSefer = [...validateSefer, async(req,res) => {
     if (!errors.isEmpty()) {
         return res.send({ error: errors.array() })
     }
-    const { driver_name, malzeme_id,pay_type,sefer_qty,total_payout } = matchedData(req)
-    await db.updateSefer(id,driver_name,malzeme_id,pay_type,total_payout,sefer_qty)
-    return res.redirect(`/sefer/malzeme/${sefer.malzeme_id}`)
+    const { name,price } = matchedData(req)
+    await db.editSefer(id,name,price)
+    return res.redirect(`/sefer`)
 }]
 
-async function getMalzemeSefer(req,res) {
-    const {malzemeId} = req.params 
+async function getAllSefer(req,res) {
     const {arama} = req.query
-    const malzeme = await db.getOneMalzeme(malzemeId)
-    const totalPayout = await db.getTotalAmount(malzemeId)
-    if(!malzeme) return res.send({error: "parent malzeme not found!"})
-
-    const seferList = arama ? await db.searchSefer(malzemeId,arama) : await db.getMalzemeSefer(malzemeId)
-    return res.render("malzemeSefer", {title:`${malzeme.name} Seferleri`,seferList,malzeme,totalPayout})
+    const seferList = arama ? await db.searchSefer(arama) : await db.getAllSefer()
+    return res.render("allSefer", {title:`Seferler`,seferList})
 }
 
 async function getEditSefer(req,res){
-    const {malzemeId,seferId} = req.params
-    const sefer = await db.getOneSefer(seferId)
-    const malzeme = await db.getOneMalzeme(malzemeId)
-    if(!malzeme) return res.send({error: "Bu yol bulunmadı!"})
+    const {id} = req.params
+    const sefer = await db.getOneSefer(id)
     if(!sefer) return res.send({error: "Bu sefer yok!"})
-    return res.render("editSefer", {sefer,malzeme})
+    return res.render("editSefer", {sefer})
 
 }
 
 async function deleteSefer(req,res){
-    const {id,malzemeId} = req.params 
+    const {id} = req.params 
     await db.deleteSefer(id)
-    return res.redirect(`/sefer/malzeme/${malzemeId}`)
+    return res.redirect(`/sefer`)
 }
 
-export default {getCreateSeferForm,createSefer, getMalzemeSefer,getEditSefer,updateSefer,deleteSefer}
+export default {getCreateSeferForm,createSefer, getAllSefer,getEditSefer,updateSefer,deleteSefer}

@@ -1,0 +1,30 @@
+<%- include("navbar",{title:"Sefer Yönetimi"}) %>
+    <main>
+    <div class="banner"><%= title %></div>
+    <form class="inline">
+        <input type="text" name="arama">
+        <button type="submit"><i class="fa-solid fa-search"></i> Ara</button>
+    </form>
+    <a href="/sefer/new" class="text-lg my-5"><i class="fa-solid fa-plus"></i>Sefer Ekle</a>
+    
+    
+
+    <% seferList.forEach(sefer => {%>
+        <div class="row">
+            <span>
+                <%= sefer.name %>
+            </span>
+            <span>
+                <%= sefer.price %> TL
+            </span>
+
+            <a href="/odeme/">Ödemelere Git</a>
+            <a href="/sefer/edit/<%= sefer.id %>" class="secondary"><i class="fa-solid fa-pen"></i></a>
+
+            <form method="post" action="/sefer/delete/<%=sefer.id%>">
+                <button class="error" type="submit"><i class="fa-solid fa-trash"></i></button>
+            </form>
+        </div>
+        <%})%>
+    </main>
+<%- include("footer") %>
