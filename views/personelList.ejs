@@ -1,0 +1,30 @@
+<%- include("navbar",{title:"Personel"}) %>
+<main>
+    <div class="banner">Personel</div>
+    <a href="/personel/new" class="text-lg my-5"><i class="fa-solid fa-plus"></i>Personel Ekle</a>
+    <a href="/bordro" class="text-lg my-5 secondary"><i class="fa-solid fa-file-invoice-dollar"></i>Bordro</a>
+
+    <% personelList.forEach(personel => { %>
+        <div class="row">
+            <span><%= personel.name %></span>
+            <span><%= personel.tckn || "-" %></span>
+            <span><%= personel.role || "-" %></span>
+            <span>Resmi Brüt: <%= personel.official_gross_salary %> TL</span>
+            <span>Anlaşılan: <%= personel.agreed_total_salary %> TL</span>
+            <a href="/bordro/new?personelId=<%= personel.id %>"><i class="fa-solid fa-plus"></i>Bordro</a>
+            <a href="/personel/edit/<%= personel.id %>" class="secondary"><i class="fa-solid fa-pen"></i></a>
+            <form method="post" action="/personel/delete/<%= personel.id %>">
+                <button class="error" type="submit"><i class="fa-solid fa-trash"></i></button>
+            </form>
+        </div>
+    <% }) %>
+
+    <% if (personelList.length === 0) { %>
+        <div class="empty-state">
+            <i class="fa-solid fa-users"></i>
+            <strong>Henüz personel yok</strong>
+            <span>Bordro oluşturmak için önce personel ekleyin.</span>
+        </div>
+    <% } %>
+</main>
+<%- include("footer") %>

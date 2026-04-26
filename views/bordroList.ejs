@@ -1,0 +1,72 @@
+<%- include("navbar",{title:"Bordro"}) %>
+<main>
+    <div class="banner">Bordro</div>
+    <a href="/personel" class="text-lg my-5"><i class="fa-solid fa-users"></i>Personel</a>
+    <a href="/bordro/new" class="text-lg my-5 secondary"><i class="fa-solid fa-plus"></i>Bordro Ekle</a>
+
+    <form class="inline filter-bar" method="get" action="/bordro">
+        <label>
+            Ay
+            <input type="month" name="month" value="<%= month || "" %>">
+        </label>
+        <button type="submit"><i class="fa-solid fa-filter"></i>Filtrele</button>
+        <a class="secondary" href="/bordro">Bu Ay</a>
+        <a class="feature-cta" href="/bordro/bulk-print?month=<%= month || defaultMonth %>&print=1"><i class="fa-solid fa-file-pdf"></i>Toplu PDF</a>
+    </form>
+
+    <% bordroList.forEach(bordro => {
+        const officialNet = bordro.calculations.officialNetSalary
+        const extraAmount = bordro.calculations.salaryExtraAmount
+        const minimumPaid = bordro.minimum_wage_paid ? officialNet : 0
+        const extraPaid = bordro.salary_extra_sent ? extraAmount : 0
+        const paidTotal = minimumPaid + extraPaid
+        const remaining = bordro.calculations.payoutAmount - paidTotal
+        const advanceAndIcra = bordro.calculations.advancePayment + bordro.calculations.icraDeduction
+    %>
+        <div class="row payroll-row">
+            <span>
+                <strong><%= bordro.personel_name %></strong>
+                <small><%= bordro.role || "-" %> | <%= bordro.payroll_month %></small>
+            </span>
+            <span>Brüt: <%= bordro.formattedCalculations.grossEarnings %> TL</span>
+            <span>Mesai: <%= bordro.formattedCalculations.overtimeGross %> TL</span>
+            <span>Resmi Net: <%= bordro.formattedCalculations.officialNetSalary %> TL</span>
+            <span>Maaş Üstü: <%= bordro.formattedCalculations.salaryExtraAmount %> TL</span>
+            <span>Avans/İcra: <%= advanceAndIcra.toFixed(2) %> TL</span>
+            <span>Ödenecek: <%= bordro.formattedCalculations.payoutAmount %> TL</span>
+            <span>Ödenen: <%= paidTotal.toFixed(2) %> TL</span>
+            <span>Kalan: <%= remaining.toFixed(2) %> TL</span>
+            <form class="switch-form" method="post" action="/bordro/minimum-paid/<%= bordro.id %>">
+                <input type="hidden" name="minimum_wage_paid" value="false">
+                <label class="switch-label">
+                    <span>Asgari ödendi</span>
+                    <input type="checkbox" name="minimum_wage_paid" value="true" <%= bordro.minimum_wage_paid ? "checked" : "" %> onchange="this.form.submit()">
+                    <span class="switch"></span>
+                </label>
+            </form>
+            <form class="switch-form" method="post" action="/bordro/extra-sent/<%= bordro.id %>">
+                <input type="hidden" name="salary_extra_sent" value="false">
+                <label class="switch-label">
+                    <span>Maaş üstü</span>
+                    <input type="checkbox" name="salary_extra_sent" value="true" <%= bordro.salary_extra_sent ? "checked" : "" %> onchange="this.form.submit()">
+                    <span class="switch"></span>
+                </label>
+            </form>
+            <a href="/bordro/detail/<%= bordro.id %>"><i class="fa-solid fa-file-lines"></i></a>
+            <a href="/bordro/detail/<%= bordro.id %>?print=1" class="secondary"><i class="fa-solid fa-file-pdf"></i></a>
+            <a href="/bordro/edit/<%= bordro.id %>" class="secondary"><i class="fa-solid fa-pen"></i></a>
+            <form method="post" action="/bordro/delete/<%= bordro.id %>">
+                <button class="error" type="submit"><i class="fa-solid fa-trash"></i></button>
+            </form>
+        </div>
+    <% }) %>
+
+    <% if (bordroList.length === 0) { %>
+        <div class="empty-state">
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+            <strong>Bordro kaydı yok</strong>
+            <span>Bu ay için yeni bordro kaydı oluşturun.</span>
+        </div>
+    <% } %>
+</main>
+<%- include("footer") %>

@@ -5,6 +5,7 @@ import driverRouter from "./routes/driverRouter.js"
 import seferRouter from "./routes/seferRouter.js"
 import odemeRouter from "./routes/odemeRouter.js"
 import featureRouter from "./routes/featureRouter.js"
+import payrollRouter from "./routes/payrollRouter.js"
 import db from "./db/queries.js"
 config()
 const app = express()
@@ -23,6 +24,7 @@ app.get("/", (req,res) => res.render("home"))
 app.use("/sefer", seferRouter)
 app.use("/odeme", odemeRouter)
 app.use("/features", featureRouter)
+app.use("/", payrollRouter)
 app.use("/", driverRouter)
 
 
@@ -34,6 +36,7 @@ app.use((err,req,res,next) => {
 
 await db.ensureOdemeHavaleSentColumn()
 await db.ensureFeatureRequestTable()
+await db.ensurePayrollTables()
 
 app.listen(PORT, (err)=> {
     if(err){
@@ -42,4 +45,3 @@ app.listen(PORT, (err)=> {
     console.log(`Lisiting to ${PORT}`)
 
 })
-

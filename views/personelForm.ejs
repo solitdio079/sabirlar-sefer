@@ -1,0 +1,30 @@
+<%- include("navbar",{title: personel ? "Personel Değiştir" : "Personel Ekle"}) %>
+<main>
+    <div class="banner"><%= personel ? "Personel Değiştir" : "Personel Ekle" %></div>
+
+    <form action="<%= personel ? `/personel/edit/${personel.id}` : "/personel/new" %>" method="post">
+        <label>
+            Ad Soyad
+            <input name="name" type="text" value="<%= personel ? personel.name : "" %>" required>
+        </label>
+        <label>
+            TCKN
+            <input name="tckn" type="text" value="<%= personel ? personel.tckn : "" %>">
+        </label>
+        <label>
+            Görev
+            <input name="role" type="text" value="<%= personel ? personel.role : "" %>" placeholder="Şoför, muhasebe, depo...">
+        </label>
+        <label>
+            Resmi Brüt Maaş
+            <input name="official_gross_salary" type="number" step="0.01" value="<%= personel ? personel.official_gross_salary : 33030 %>" required>
+        </label>
+        <label>
+            Anlaşılan Toplam Maaş
+            <input name="agreed_total_salary" type="number" step="0.01" value="<%= personel ? personel.agreed_total_salary : 28075.50 %>" required>
+        </label>
+
+        <button type="submit"><%= personel ? "Değiştir" : "Oluştur" %></button>
+    </form>
+</main>
+<%- include("footer") %>

@@ -573,7 +573,7 @@ a.my-5 {
 .home-grid {
     width: min(1120px, calc(100% - 2rem));
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
     gap: 1rem;
     margin: 2rem auto;
 }
@@ -678,6 +678,324 @@ a.my-5 {
     font-size: 1.2rem;
 }
 
+.payroll-row {
+    grid-template-columns: minmax(12rem, 1.2fr) repeat(auto-fit, minmax(8rem, 1fr));
+}
+
+.payroll-row small {
+    display: block;
+    margin-top: .35rem;
+    color: var(--color-muted);
+    font-size: .9rem;
+    font-weight: 500;
+}
+
+.print-sheet {
+    margin-bottom: 1rem;
+    padding: 2rem;
+    border: 1px solid #bfd6e8;
+    border-top: .45rem solid var(--color-accent);
+    border-radius: 8px;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-md);
+}
+
+.print-sheet h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.print-sheet p {
+    color: var(--color-muted);
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: minmax(10rem, 16rem) 1fr;
+    gap: .75rem;
+    margin-top: 1.5rem;
+}
+
+.detail-grid span {
+    color: var(--color-muted);
+    font-weight: 700;
+}
+
+.detail-grid strong {
+    color: var(--color-text);
+}
+
+.notes {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background: var(--color-surface-soft);
+}
+
+.form-note {
+    margin: 0;
+    padding: .9rem 1rem;
+    border: 1px solid #b7d9d2;
+    border-radius: 8px;
+    background: var(--color-surface-soft);
+    color: #0f513f;
+    font-weight: 700;
+}
+
+.sheet-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.sheet-logo {
+    width: 5rem;
+    height: auto;
+}
+
+.payroll-sheet h2 {
+    margin: 1.5rem 0 .75rem;
+    padding: .55rem .75rem;
+    border-radius: 8px;
+    background: var(--color-surface-soft);
+    color: #0f513f;
+    font-size: 1.15rem;
+}
+
+.payroll-table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: #fff;
+}
+
+.payroll-table th,
+.payroll-table td {
+    padding: .7rem .85rem;
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+}
+
+.payroll-table tr:nth-child(even) td,
+.payroll-table tr:nth-child(even) th {
+    background: #fbfdff;
+}
+
+.payroll-table tr:last-child th,
+.payroll-table tr:last-child td {
+    border-bottom: 0;
+}
+
+.payroll-table th {
+    width: 55%;
+    background: #f8fafc;
+    color: var(--color-muted);
+}
+
+.payroll-table td {
+    color: var(--color-text);
+    font-weight: 700;
+}
+
+.total-table tr:last-child th,
+.total-table tr:last-child td {
+    background: var(--color-surface-soft);
+    color: #0f513f;
+    font-size: 1.1rem;
+}
+
+.bulk-print-main {
+    width: min(960px, calc(100% - 2rem));
+}
+
+.compact-sheet {
+    margin-bottom: 1rem;
+    page-break-after: always;
+    break-after: page;
+}
+
+.compact-sheet:last-of-type {
+    page-break-after: auto;
+    break-after: auto;
+}
+
+.compact-meta {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: .5rem;
+    margin: .8rem 0;
+    color: var(--color-muted);
+    font-size: .9rem;
+}
+
+.compact-meta span {
+    padding: .45rem .5rem;
+    border-radius: 8px;
+    background: #f8fafc;
+}
+
+.compact-table th,
+.compact-table td {
+    padding: .48rem .6rem;
+    font-size: .92rem;
+}
+
+.compact-table th {
+    width: 25%;
+}
+
+.compact-total-row th,
+.compact-total-row td {
+    background: var(--color-surface-soft);
+    color: #0f513f;
+}
+
+.compact-notes {
+    margin-top: .75rem;
+    padding: .6rem .75rem;
+    font-size: .9rem;
+}
+
+@media print {
+    @page {
+        size: A4;
+        margin: 5mm;
+    }
+
+    nav,
+    footer,
+    .banner,
+    button,
+    a {
+        display: none !important;
+    }
+
+    body {
+        background: #fff;
+        font-size: 10px;
+        line-height: 1.15;
+    }
+
+    main {
+        width: 100%;
+        margin: 0;
+    }
+
+    .print-sheet {
+        border: 0;
+        border-top: 0;
+        box-shadow: none;
+        padding: 0;
+    }
+
+    .one-page-sheet {
+        max-height: 285mm;
+        overflow: hidden;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .payroll-sheet {
+        font-size: 9.5px;
+        line-height: 1.12;
+    }
+
+    .compact-sheet {
+        min-height: auto;
+        margin: 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .sheet-header {
+        padding-bottom: .2rem;
+    }
+
+    .sheet-header h1,
+    .print-sheet h1 {
+        font-size: 1.05rem;
+        line-height: 1.05;
+    }
+
+    .sheet-header p,
+    .print-sheet p {
+        margin: .08rem 0;
+        font-size: .68rem;
+    }
+
+    .sheet-logo {
+        width: 2.35rem;
+    }
+
+    .detail-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: .18rem .35rem;
+        margin-top: .35rem;
+        font-size: .68rem;
+    }
+
+    .detail-grid span,
+    .detail-grid strong {
+        min-width: 0;
+    }
+
+    .compact-meta {
+        gap: .25rem;
+        margin: .45rem 0;
+        font-size: .78rem;
+    }
+
+    .compact-meta span {
+        padding: .25rem .35rem;
+    }
+
+    .compact-table th,
+    .compact-table td {
+        padding: .3rem .38rem;
+        font-size: .78rem;
+    }
+
+    .payroll-sheet h2 {
+        margin: .35rem 0 .18rem;
+        padding: .08rem 0;
+        background: transparent !important;
+        color: #111;
+        font-size: .78rem;
+        line-height: 1.05;
+    }
+
+    .payroll-table {
+        border-radius: 0;
+    }
+
+    .payroll-table th,
+    .payroll-table td {
+        padding: .18rem .28rem;
+        font-size: .68rem;
+        line-height: 1.08;
+    }
+
+    .total-table tr:last-child th,
+    .total-table tr:last-child td {
+        font-size: .78rem;
+    }
+
+    .compact-notes {
+        margin-top: .25rem;
+        padding: .22rem .3rem;
+        font-size: .68rem;
+    }
+
+    .payroll-table th {
+        background: #f2f4f7 !important;
+    }
+}
+
 @media (max-width: 720px) {
     nav,
     footer,
@@ -780,6 +1098,10 @@ a.my-5 {
     }
 
     .feature-row {
+        grid-template-columns: 1fr;
+    }
+
+    .compact-meta {
         grid-template-columns: 1fr;
     }
 

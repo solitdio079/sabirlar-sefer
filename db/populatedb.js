@@ -31,6 +31,36 @@ CREATE TABLE IF NOT EXISTS feature_request (
     implemented BOOLEAN NOT NULL DEFAULT false,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+CREATE TABLE IF NOT EXISTS personel (
+    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    name TEXT NOT NULL,
+    tckn TEXT,
+    role TEXT,
+    official_gross_salary NUMERIC NOT NULL DEFAULT 0,
+    agreed_total_salary NUMERIC NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS bordro (
+    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    personel_id INTEGER REFERENCES personel(id) ON DELETE CASCADE,
+    payroll_month TEXT NOT NULL,
+    official_gross_salary NUMERIC NOT NULL DEFAULT 0,
+    official_net_salary NUMERIC NOT NULL DEFAULT 0,
+    agreed_total_salary NUMERIC NOT NULL DEFAULT 0,
+    working_days NUMERIC NOT NULL DEFAULT 26,
+    overtime_days NUMERIC NOT NULL DEFAULT 0,
+    overtime_hours NUMERIC NOT NULL DEFAULT 0,
+    advance_payment NUMERIC NOT NULL DEFAULT 0,
+    icra_deduction NUMERIC NOT NULL DEFAULT 0,
+    prior_cumulative_tax_base NUMERIC NOT NULL DEFAULT 0,
+    minimum_wage_paid BOOLEAN NOT NULL DEFAULT false,
+    salary_extra_amount NUMERIC NOT NULL DEFAULT 0,
+    salary_extra_sent BOOLEAN NOT NULL DEFAULT false,
+    payment_type TEXT NOT NULL DEFAULT 'Havale',
+    notes TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
 INSERT INTO sefer (name,price) VALUES 
 ('Inebolu 1 sefer', 500),
 ('Inebolu 2 sefer', 1100),
@@ -88,6 +118,17 @@ INSERT INTO driver (tckn,name) VALUES
 ('57565214274','YAVUZ AKÇAY'),
 ('10874629412','YILDIRAY ÜNLÜ'),
 ('55510137388','YUNÜS ELMACI');
+
+INSERT INTO personel (name,tckn,role,official_gross_salary,agreed_total_salary)
+SELECT d.name, d.tckn, 'Şoför', 33030, 28075.50
+FROM driver d
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM personel p
+    WHERE p.tckn = d.tckn
+       OR (p.tckn IS NULL AND p.name = d.name)
+       OR (p.tckn = '' AND p.name = d.name)
+);
 
 `;
 

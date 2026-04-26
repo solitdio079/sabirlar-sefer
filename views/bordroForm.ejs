@@ -1,0 +1,71 @@
+<%- include("navbar",{title: bordro ? "Bordro Değiştir" : "Bordro Ekle"}) %>
+<main>
+    <div class="banner"><%= bordro ? "Bordro Değiştir" : "Bordro Ekle" %></div>
+
+    <form action="<%= bordro ? `/bordro/edit/${bordro.id}` : "/bordro/new" %>" method="post">
+        <% if (bordro) { %>
+            <input type="hidden" name="personel_id" value="<%= bordro.personel_id %>">
+        <% } %>
+        <label>
+            Personel
+            <select name="personel_id" required <%= bordro ? "disabled" : "" %>>
+                <% personelList.forEach(personel => { %>
+                    <option value="<%= personel.id %>" <%= (bordro && bordro.personel_id == personel.id) || (!bordro && selectedPersonel && selectedPersonel.id == personel.id) ? "selected" : "" %>>
+                        <%= personel.name %>
+                    </option>
+                <% }) %>
+            </select>
+        </label>
+        <label>
+            Bordro Ayı
+            <input type="month" name="payroll_month" value="<%= bordro ? bordro.payroll_month : "" %>" required>
+        </label>
+        <label>
+            Resmi Brüt Maaş
+            <input type="number" step="0.01" name="official_gross_salary" value="<%= bordro ? bordro.official_gross_salary : selectedPersonel ? selectedPersonel.official_gross_salary : rates.minimumGrossSalary %>" required>
+        </label>
+        <label>
+            Anlaşılan Toplam Maaş
+            <input type="number" step="0.01" name="agreed_total_salary" value="<%= bordro ? bordro.agreed_total_salary : selectedPersonel ? selectedPersonel.agreed_total_salary : 0 %>" required>
+        </label>
+        <label>
+            Çalışma Günü
+            <input type="number" step="0.01" name="working_days" value="<%= bordro ? bordro.working_days : rates.workingDays %>" required>
+        </label>
+        <label>
+            Mesai Günü
+            <input type="number" step="0.01" name="overtime_days" value="<%= bordro ? bordro.overtime_days : 0 %>" required>
+        </label>
+        <label>
+            Mesai Saati
+            <input type="number" step="0.01" name="overtime_hours" value="<%= bordro ? bordro.overtime_hours : 0 %>" required>
+        </label>
+        <label>
+            Avans
+            <input type="number" step="0.01" name="advance_payment" value="<%= bordro ? bordro.advance_payment : 0 %>" required>
+        </label>
+        <label>
+            İcra Kesintisi
+            <input type="number" step="0.01" name="icra_deduction" value="<%= bordro ? bordro.icra_deduction : 0 %>" required>
+        </label>
+        <label>
+            Önceki Kümülatif Vergi Matrahı
+            <input type="number" step="0.01" name="prior_cumulative_tax_base" value="<%= bordro ? bordro.prior_cumulative_tax_base : 0 %>" required>
+        </label>
+        <label>
+            Ödeme Tipi
+            <select name="payment_type">
+                <option value="Havale" <%= bordro && bordro.payment_type === "Havale" ? "selected" : "" %>>Havale</option>
+                <option value="Nakit" <%= bordro && bordro.payment_type === "Nakit" ? "selected" : "" %>>Nakit</option>
+            </select>
+        </label>
+        <label>
+            Notlar
+            <textarea name="notes" rows="4"><%= bordro ? bordro.notes || "" : "" %></textarea>
+        </label>
+
+        <p class="form-note">Resmi net, gelir vergisi, damga vergisi, maaş üstü ve ödenecek tutar kayıttan sonra otomatik hesaplanır.</p>
+        <button type="submit"><%= bordro ? "Değiştir" : "Oluştur" %></button>
+    </form>
+</main>
+<%- include("footer") %>
