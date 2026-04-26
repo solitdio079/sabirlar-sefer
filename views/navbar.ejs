@@ -11,6 +11,36 @@
 
 <body>
     <nav>
-      <a class="logo-link" href="/"> <img src="/logo.webp" class="logo" > </a>
-        <a  target="_blank" href="https://sabirlar.com"><i class="fa-solid fa-globe"></i></a>
+      <a class="logo-link" href="/" aria-label="Ana sayfa"> <img src="/logo.webp" class="logo" > </a>
+        <button class="nav-toggle" type="button" aria-label="Menüyü aç" aria-expanded="false">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="nav-actions" id="site-menu">
+            <a class="nav-link" href="/">Ana Sayfa</a>
+            <a class="nav-link" href="/drivers">Şoförler</a>
+            <a class="nav-link" href="/sefer">Seferler</a>
+            <a class="nav-link" href="/odeme">Ödemeler</a>
+            <a class="nav-link" href="/features">Talepler</a>
+            <a class="nav-link nav-external" target="_blank" href="https://sabirlar.com"><i class="fa-solid fa-globe"></i></a>
+        </div>
     </nav>
+    <script>
+        const nav = document.querySelector("nav")
+        const navToggle = document.querySelector(".nav-toggle")
+        const navLinks = document.querySelectorAll(".nav-link[href^='/']")
+        const currentPath = window.location.pathname
+
+        navLinks.forEach((link) => {
+            const linkPath = link.getAttribute("href")
+            const isActive = linkPath === "/"
+                ? currentPath === "/"
+                : currentPath === linkPath || currentPath.startsWith(`${linkPath}/`)
+
+            if(isActive) link.classList.add("active")
+        })
+
+        navToggle.addEventListener("click", () => {
+            const isOpen = nav.classList.toggle("open")
+            navToggle.setAttribute("aria-expanded", isOpen)
+        })
+    </script>

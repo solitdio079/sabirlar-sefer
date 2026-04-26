@@ -2,7 +2,26 @@
     <main>
     <div class="banner"><%=title%></div>
    
-    <a href="/" class="text-lg my-5"><i class="fa-solid fa-plus"></i>Ana Sayfa</a>
+    <a href="/" class="text-lg my-5"><i class="fa-solid fa-house"></i>Ana Sayfa</a>
+    <a href="/drivers" class="text-lg my-5"><i class="fa-solid fa-users"></i>Şoförler</a>
+    <form class="inline filter-bar" method="get" action="/odeme">
+        <% if (filters.driverId) { %>
+            <input type="hidden" name="driverId" value="<%= filters.driverId %>">
+        <% } %>
+        <% if (filters.seferId) { %>
+            <input type="hidden" name="seferId" value="<%= filters.seferId %>">
+        <% } %>
+        <label>
+            Başlangıç
+            <input type="date" name="startDate" value="<%= filters.startDate || "" %>">
+        </label>
+        <label>
+            Bitiş
+            <input type="date" name="endDate" value="<%= filters.endDate || "" %>">
+        </label>
+        <button type="submit"><i class="fa-solid fa-filter"></i> Filtrele</button>
+        <a class="secondary" href="/odeme/<%= filters.driverId ? `?driverId=${filters.driverId}` : filters.seferId ? `?seferId=${filters.seferId}` : "" %>">Temizle</a>
+    </form>
    
     
 

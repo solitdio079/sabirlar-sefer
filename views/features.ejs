@@ -1,0 +1,48 @@
+<%- include("navbar",{title:"Özellik Talepleri"}) %>
+<main>
+    <div class="banner">Özellik Talepleri</div>
+
+    <form class="feature-form" method="post" action="/features">
+        <label>
+            Özellik Başlığı
+            <input type="text" name="title" placeholder="Örn: Aylık ödeme raporu">
+        </label>
+        <label>
+            Açıklama
+            <textarea name="description" rows="4" placeholder="İhtiyacı, ekranı veya beklenen davranışı yazın."></textarea>
+        </label>
+        <button type="submit"><i class="fa-solid fa-plus"></i> Talep Ekle</button>
+    </form>
+
+    <div class="feature-list">
+        <% if (featureRequests.length === 0) { %>
+            <div class="empty-state">
+                <i class="fa-solid fa-lightbulb"></i>
+                <strong>Henüz özellik talebi yok</strong>
+                <span>İlk fikri yukarıdaki formdan ekleyin.</span>
+            </div>
+        <% } %>
+        <% featureRequests.forEach(feature => { %>
+            <div class="row feature-row">
+                <span>
+                    <strong><%= feature.title %></strong>
+                    <% if (feature.description) { %>
+                        <small><%= feature.description %></small>
+                    <% } %>
+                </span>
+                <span class="<%= feature.implemented ? "status-done" : "status-open" %>">
+                    <%= feature.implemented ? "Uygulandı" : "Bekliyor" %>
+                </span>
+                <form class="switch-form" method="post" action="/features/implemented/<%= feature.id %>">
+                    <input type="hidden" name="implemented" value="false">
+                    <label class="switch-label">
+                        <span>Uygulandı</span>
+                        <input type="checkbox" name="implemented" value="true" <%= feature.implemented ? "checked" : "" %> onchange="this.form.submit()">
+                        <span class="switch"></span>
+                    </label>
+                </form>
+            </div>
+        <% }) %>
+    </div>
+</main>
+<%- include("footer") %>

@@ -3,7 +3,7 @@ import driverController from "../controllers/driverController.js"
 const router = Router()
 
 
-router.get("/", driverController.getDriverList)
+router.get("/drivers", driverController.getDriverList)
 
  router.post("/new", driverController.createDriver)
  router.get("/new", driverController.getcreateDriverForm)

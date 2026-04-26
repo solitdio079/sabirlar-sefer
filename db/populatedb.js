@@ -23,6 +23,14 @@ CREATE TABLE IF NOT EXISTS odeme (
     havale_sent BOOLEAN NOT NULL DEFAULT false
 );
 ALTER TABLE odeme ADD COLUMN IF NOT EXISTS havale_sent BOOLEAN NOT NULL DEFAULT false;
+
+CREATE TABLE IF NOT EXISTS feature_request (
+    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    title TEXT NOT NULL,
+    description TEXT,
+    implemented BOOLEAN NOT NULL DEFAULT false,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
 INSERT INTO sefer (name,price) VALUES 
 ('Inebolu 1 sefer', 500),
 ('Inebolu 2 sefer', 1100),

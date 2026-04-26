@@ -50,7 +50,7 @@ async function getOdemeForm(req,res){
 }
 
 async function getOdemeList(req,res){
-    const {driverId,seferId} = req.query
+    const {driverId,seferId,startDate,endDate} = req.query
     let odemeList=[]
     let title = ''
     if(driverId){
@@ -64,13 +64,19 @@ async function getOdemeList(req,res){
         odemeList = await db.getAllOdeme()
         title = "Ödemeler"
     }
+    odemeList = odemeList.filter((odeme) => {
+        if(startDate && odeme.sefer_date < startDate) return false
+        if(endDate && odeme.sefer_date > endDate) return false
+        return true
+    })
+
     const toplam = odemeList.reduce((acc,curr) => {
         const shouldCount = curr.pay_type === "Nakit" || (curr.pay_type === "Havale" && curr.havale_sent)
         if(!shouldCount) return acc
         return acc + parseInt(curr.payout)
     },0)
      
-    res.render("odemeList",{odemeList,title, toplam})
+    res.render("odemeList",{odemeList,title, toplam, filters: {driverId,seferId,startDate,endDate}})
 }
 
 async function deleteOdeme(req,res){

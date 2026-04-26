@@ -23,7 +23,7 @@ const createDriver = [...validateDriver, async (req, res) => {
     const { name, tckn } = matchedData(req)
 
     await db.createDriver(name, tckn)
-    return res.redirect("/")
+    return res.redirect("/drivers")
 }]
 
 async function getUpdateForm(req, res) {
@@ -43,7 +43,7 @@ const updateDriver = [...validateDriver, async (req, res) => {
 
     const { name, tckn } = matchedData(req)
     await db.editDriver(id,name,tckn)
-    return res.redirect("/")
+    return res.redirect("/drivers")
 
 
 }]
@@ -51,7 +51,7 @@ const updateDriver = [...validateDriver, async (req, res) => {
 async function deleteDriver(req,res){
     const {id} = req.params
     await db.deleteDriver(id)
-    return res.redirect("/")
+    return res.redirect("/drivers")
 }
 
 
@@ -66,4 +66,3 @@ export default {
     updateDriver,
     deleteDriver
 }
-

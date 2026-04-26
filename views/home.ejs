@@ -1,0 +1,50 @@
+<%- include("navbar",{title:"Sabırlar Sefer Takip"}) %>
+<main class="home-main">
+    <section class="hero">
+        <div class="hero-content">
+            <p class="eyebrow">Sabırlar Lojistik operasyon paneli</p>
+            <h1>Sabırlar Sefer Takip</h1>
+            <p class="hero-copy">
+                Şoförleri, seferleri ve ödemeleri tek yerden yönetin. Nakit ödemeleri, gönderilen havaleleri ve tarih aralıklarına göre ödeme toplamlarını hızlıca takip edin.
+            </p>
+            <div class="hero-actions">
+                <a href="/drivers"><i class="fa-solid fa-users"></i> Şoförleri Yönet</a>
+                <a href="/odeme" class="secondary"><i class="fa-solid fa-receipt"></i> Ödemeleri Gör</a>
+                <a href="/features" class="feature-cta"><i class="fa-solid fa-lightbulb"></i> Özellik İste</a>
+            </div>
+        </div>
+        <div class="hero-panel">
+            <div>
+                <span>Odeme</span>
+                <strong>Nakit + gönderilen havale toplamları</strong>
+            </div>
+            <div>
+                <span>Sefer</span>
+                <strong>Güncel sefer fiyatları ve kayıtları</strong>
+            </div>
+            <div>
+                <span>Talep</span>
+                <strong>Yeni fikirleri takip listesine ekleyin</strong>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-grid">
+        <a href="/drivers" class="home-card">
+            <i class="fa-solid fa-id-card"></i>
+            <span>Şoför Yönetimi</span>
+            <small>Şoför ekleyin, düzenleyin ve ödemelerine ulaşın.</small>
+        </a>
+        <a href="/sefer" class="home-card">
+            <i class="fa-solid fa-route"></i>
+            <span>Sefer Yönetimi</span>
+            <small>Seferleri ve fiyatlarını düzenli tutun.</small>
+        </a>
+        <a href="/odeme" class="home-card">
+            <i class="fa-solid fa-money-bill-transfer"></i>
+            <span>Ödeme Takibi</span>
+            <small>Tarihe göre filtreleyin, havale durumunu işaretleyin.</small>
+        </a>
+    </section>
+</main>
+<%- include("footer") %>

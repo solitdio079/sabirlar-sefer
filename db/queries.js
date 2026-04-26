@@ -15,6 +15,18 @@ async function ensureOdemeHavaleSentColumn(){
     `)
 }
 
+async function ensureFeatureRequestTable(){
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS feature_request (
+            id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+            title TEXT NOT NULL,
+            description TEXT,
+            implemented BOOLEAN NOT NULL DEFAULT false,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+    `)
+}
+
 // Sefer 
 
 async function getAllSefer(){
@@ -106,4 +118,17 @@ async function deleteOdeme(id){
     await pool.query(`DELETE FROM odeme WHERE id=$1`,[id])
 }
 
-export default {ensureOdemeHavaleSentColumn, createOdeme, getOneOdeme,getAllOdeme,deleteOdeme,updateOdeme,updateHavaleSent,getAllOdeme,getDriverOdeme, getSeferOdeme ,createDriver, createSefer, editSefer, searchSefer,getAllSefer,  getOneSefer, deleteSefer,getAllDrivers, getOneDriver,searchDriver,deleteDriver, editDriver }
+async function getAllFeatureRequests(){
+    const {rows} = await pool.query(`SELECT * FROM feature_request ORDER BY implemented ASC, created_at DESC`)
+    return rows
+}
+
+async function createFeatureRequest(title,description){
+    await pool.query(`INSERT INTO feature_request (title,description) VALUES ($1,$2)`,[title,description])
+}
+
+async function updateFeatureImplemented(id,implemented){
+    await pool.query(`UPDATE feature_request SET implemented=$1 WHERE id=$2`,[implemented,id])
+}
+
+export default {ensureOdemeHavaleSentColumn, ensureFeatureRequestTable, createOdeme, getOneOdeme,getAllOdeme,deleteOdeme,updateOdeme,updateHavaleSent,getAllOdeme,getDriverOdeme, getSeferOdeme ,createDriver, createSefer, editSefer, searchSefer,getAllSefer,  getOneSefer, deleteSefer,getAllDrivers, getOneDriver,searchDriver,deleteDriver, editDriver, getAllFeatureRequests, createFeatureRequest, updateFeatureImplemented }

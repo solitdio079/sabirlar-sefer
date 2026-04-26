@@ -4,6 +4,7 @@ import path from "node:path"
 import driverRouter from "./routes/driverRouter.js"
 import seferRouter from "./routes/seferRouter.js"
 import odemeRouter from "./routes/odemeRouter.js"
+import featureRouter from "./routes/featureRouter.js"
 import db from "./db/queries.js"
 config()
 const app = express()
@@ -18,8 +19,10 @@ app.set("view engine", "ejs")
 app.set("views", path.resolve(__dirname,"views"))
 
 
+app.get("/", (req,res) => res.render("home"))
 app.use("/sefer", seferRouter)
 app.use("/odeme", odemeRouter)
+app.use("/features", featureRouter)
 app.use("/", driverRouter)
 
 
@@ -30,6 +33,7 @@ app.use((err,req,res,next) => {
 })
 
 await db.ensureOdemeHavaleSentColumn()
+await db.ensureFeatureRequestTable()
 
 app.listen(PORT, (err)=> {
     if(err){
@@ -38,5 +42,4 @@ app.listen(PORT, (err)=> {
     console.log(`Lisiting to ${PORT}`)
 
 })
-
 
