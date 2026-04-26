@@ -65,7 +65,8 @@ async function getOdemeList(req,res){
         title = "Ödemeler"
     }
     const toplam = odemeList.reduce((acc,curr) => {
-        if(curr.pay_type !== "Nakit") return acc
+        const shouldCount = curr.pay_type === "Nakit" || (curr.pay_type === "Havale" && curr.havale_sent)
+        if(!shouldCount) return acc
         return acc + parseInt(curr.payout)
     },0)
      
