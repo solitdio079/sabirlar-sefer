@@ -23,6 +23,20 @@
             <span>
                 <%= odeme.payout %> TL
             </span>
+            <span>
+                <% if (odeme.pay_type === "Havale") { %>
+                    <form class="switch-form" method="post" action="/odeme/havale-sent/<%= odeme.id %>">
+                        <input type="hidden" name="havale_sent" value="false">
+                        <label class="switch-label">
+                            <span>Gönderildi</span>
+                            <input type="checkbox" name="havale_sent" value="true" <%= odeme.havale_sent ? "checked" : "" %> onchange="this.form.submit()">
+                            <span class="switch"></span>
+                        </label>
+                    </form>
+                <% } else { %>
+                    -
+                <% } %>
+            </span>
 
            
            

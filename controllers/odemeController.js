@@ -81,6 +81,17 @@ async function deleteOdeme(req,res){
 
 }
 
+async function updateHavaleSent(req,res){
+    const {id} = req.params
+    const havaleSentValue = req.body.havale_sent
+    const havaleSent = Array.isArray(havaleSentValue)
+        ? havaleSentValue.includes("true")
+        : havaleSentValue === "true"
+    await db.updateHavaleSent(id,havaleSent)
+
+    return res.redirect(req.get("Referrer") || "/odeme")
+}
+
 async function getUpdateOdemeForm(req,res){
     const {driverId,id} = req.params
     const seferList = await db.getAllSefer()
@@ -92,4 +103,4 @@ async function getUpdateOdemeForm(req,res){
     return res.render("updateOdeme",{seferList,driver,odeme})
     
 }
-export default {getOdemeForm,createOdeme,getOdemeList,updateOdeme,deleteOdeme,getUpdateOdemeForm}
+export default {getOdemeForm,createOdeme,getOdemeList,updateOdeme,deleteOdeme,updateHavaleSent,getUpdateOdemeForm}

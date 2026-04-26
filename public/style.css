@@ -100,10 +100,59 @@ form.inline {
     flex-direction: row;
 }
 
+.switch-form {
+    display: inline-flex;
+    margin: 0;
+}
+
+.switch-label input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.switch {
+    width: 3rem;
+    height: 1.5rem;
+    border-radius: 1rem;
+    background-color: #bbb;
+    position: relative;
+    cursor: pointer;
+}
+
+.switch::after {
+    content: "";
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    background-color: #fff;
+    position: absolute;
+    top: .15rem;
+    left: .15rem;
+    transition: transform .2s ease;
+}
+
+.switch-label input:checked + .switch {
+    background-color: rgb(7, 43, 75);
+}
+
+.switch-label input:checked + .switch::after {
+    transform: translateX(1.5rem);
+}
+
 form label {
     display: flex;
     flex-direction: column;
     gap: .5rem;
+}
+
+form label.switch-label {
+    align-items: center;
+    flex-direction: row;
+}
+
+.switch-form span {
+    font-size: 1rem;
 }
 
 a {

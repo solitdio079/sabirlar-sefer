@@ -19,8 +19,10 @@ CREATE TABLE IF NOT EXISTS odeme (
     sefer_id INTEGER REFERENCES sefer(id) ON DELETE CASCADE,
     driver_id INTEGER REFERENCES driver(id) ON DELETE CASCADE,
     payout NUMERIC,
-    sefer_qty NUMERIC
+    sefer_qty NUMERIC,
+    havale_sent BOOLEAN NOT NULL DEFAULT false
 );
+ALTER TABLE odeme ADD COLUMN IF NOT EXISTS havale_sent BOOLEAN NOT NULL DEFAULT false;
 INSERT INTO sefer (name,price) VALUES 
 ('Inebolu 1 sefer', 500),
 ('Inebolu 2 sefer', 1100),

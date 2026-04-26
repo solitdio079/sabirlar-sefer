@@ -1,5 +1,20 @@
 import pool from "./pool.js";
 
+async function ensureOdemeHavaleSentColumn(){
+    await pool.query(`
+        DO $$
+        BEGIN
+            IF EXISTS (
+                SELECT 1
+                FROM information_schema.tables
+                WHERE table_name = 'odeme'
+            ) THEN
+                ALTER TABLE odeme ADD COLUMN IF NOT EXISTS havale_sent BOOLEAN NOT NULL DEFAULT false;
+            END IF;
+        END $$;
+    `)
+}
+
 // Sefer 
 
 async function getAllSefer(){
@@ -80,11 +95,15 @@ async function getSeferOdeme(seferId){
 }
 
 async function updateOdeme(id,sefer_date,sefer_id,sefer_name,sefer_price,driver_id,driver_name,pay_type,payout,sefer_qty){
-    await pool.query(`UPDATE odeme SET sefer_date=$1,sefer_id=$2,sefer_name=$3,sefer_price=$4,driver_id=$5,driver_name=$6,pay_type=$7,payout=$8,sefer_qty=$9 WHERE id=$10`,[sefer_date,sefer_id,sefer_name,sefer_price,driver_id,driver_name,pay_type,payout,sefer_qty,id])
+    await pool.query(`UPDATE odeme SET sefer_date=$1,sefer_id=$2,sefer_name=$3,sefer_price=$4,driver_id=$5,driver_name=$6,pay_type=$7,payout=$8,sefer_qty=$9,havale_sent=CASE WHEN $7 = 'Havale' THEN havale_sent ELSE false END WHERE id=$10`,[sefer_date,sefer_id,sefer_name,sefer_price,driver_id,driver_name,pay_type,payout,sefer_qty,id])
+}
+
+async function updateHavaleSent(id,havaleSent){
+    await pool.query(`UPDATE odeme SET havale_sent=$1 WHERE id=$2 AND pay_type='Havale'`,[havaleSent,id])
 }
 
 async function deleteOdeme(id){
     await pool.query(`DELETE FROM odeme WHERE id=$1`,[id])
 }
 
-export default {createOdeme, getOneOdeme,getAllOdeme,deleteOdeme,updateOdeme,getAllOdeme,getDriverOdeme, getSeferOdeme ,createDriver, createSefer, editSefer, searchSefer,getAllSefer,  getOneSefer, deleteSefer,getAllDrivers, getOneDriver,searchDriver,deleteDriver, editDriver }
+export default {ensureOdemeHavaleSentColumn, createOdeme, getOneOdeme,getAllOdeme,deleteOdeme,updateOdeme,updateHavaleSent,getAllOdeme,getDriverOdeme, getSeferOdeme ,createDriver, createSefer, editSefer, searchSefer,getAllSefer,  getOneSefer, deleteSefer,getAllDrivers, getOneDriver,searchDriver,deleteDriver, editDriver }

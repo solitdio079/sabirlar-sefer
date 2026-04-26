@@ -4,6 +4,7 @@ import path from "node:path"
 import driverRouter from "./routes/driverRouter.js"
 import seferRouter from "./routes/seferRouter.js"
 import odemeRouter from "./routes/odemeRouter.js"
+import db from "./db/queries.js"
 config()
 const app = express()
 
@@ -28,6 +29,7 @@ app.use((err,req,res,next) => {
     }
 })
 
+await db.ensureOdemeHavaleSentColumn()
 
 app.listen(PORT, (err)=> {
     if(err){
@@ -36,6 +38,5 @@ app.listen(PORT, (err)=> {
     console.log(`Lisiting to ${PORT}`)
 
 })
-
 
 
