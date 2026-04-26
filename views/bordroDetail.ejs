@@ -1,7 +1,7 @@
 <%- include("navbar",{title:"Bordro Dökümü"}) %>
 <main>
     <div class="banner">Bordro Dökümü</div>
-    <section class="print-sheet payroll-sheet one-page-sheet">
+    <section class="print-sheet payroll-sheet payroll-detail-sheet one-page-sheet">
         <div class="sheet-header">
             <div>
                 <h1><%= bordro.personel_name %></h1>
@@ -19,43 +19,49 @@
             <span>Ödeme Tipi</span><strong><%= bordro.payment_type %></strong>
         </div>
 
-        <h2>Kazançlar</h2>
-        <table class="payroll-table">
+        <h2>Bordro Hesaplama Tablosu</h2>
+        <table class="payroll-table compact-table">
             <tbody>
-                <tr><th>Resmi Brüt Maaş</th><td><%= formattedCalculations.officialGrossSalary %> TL</td></tr>
-                <tr><th>Günlük Brüt Ücret</th><td><%= formattedCalculations.dailyGross %> TL</td></tr>
-                <tr><th>Saatlik Brüt Ücret</th><td><%= formattedCalculations.hourlyGross %> TL</td></tr>
-                <tr><th>Mesai Gün Tutarı</th><td><%= formattedCalculations.overtimeDayGross %> TL</td></tr>
-                <tr><th>Mesai Saat Tutarı</th><td><%= formattedCalculations.overtimeHourGross %> TL</td></tr>
-                <tr><th>Toplam Mesai Brüt Tutarı</th><td><%= formattedCalculations.overtimeGross %> TL</td></tr>
-                <tr><th>Toplam Brüt Kazanç</th><td><%= formattedCalculations.grossEarnings %> TL</td></tr>
-            </tbody>
-        </table>
-
-        <h2>Yasal Kesintiler</h2>
-        <table class="payroll-table">
-            <tbody>
-                <tr><th>SGK İşçi Payı (%14)</th><td><%= formattedCalculations.sgkEmployee %> TL</td></tr>
-                <tr><th>İşsizlik İşçi Payı (%1)</th><td><%= formattedCalculations.unemploymentEmployee %> TL</td></tr>
-                <tr><th>Gelir Vergisi Matrahı</th><td><%= formattedCalculations.incomeTaxBase %> TL</td></tr>
-                <tr><th>Önceki Kümülatif Matrah</th><td><%= formattedCalculations.priorCumulativeTaxBase %> TL</td></tr>
-                <tr><th>Yeni Kümülatif Matrah</th><td><%= formattedCalculations.cumulativeTaxBase %> TL</td></tr>
-                <tr><th>Gelir Vergisi</th><td><%= formattedCalculations.incomeTax %> TL</td></tr>
-                <tr><th>Damga Vergisi</th><td><%= formattedCalculations.stampTax %> TL</td></tr>
-            </tbody>
-        </table>
-
-        <h2>Ödeme Özeti</h2>
-        <table class="payroll-table total-table">
-            <tbody>
-                <tr><th>Resmi Net Maaş</th><td><%= formattedCalculations.officialNetSalary %> TL</td></tr>
-                <tr><th>Anlaşılan Toplam Maaş</th><td><%= Number(bordro.agreed_total_salary || 0).toFixed(2) %> TL</td></tr>
-                <tr><th>Maaş Üstü</th><td><%= formattedCalculations.salaryExtraAmount %> TL</td></tr>
-                <tr><th>Avans Kesintisi</th><td><%= formattedCalculations.advancePayment %> TL</td></tr>
-                <tr><th>İcra Kesintisi</th><td><%= formattedCalculations.icraDeduction %> TL</td></tr>
-                <tr><th>Personele Ödenecek Net Tutar</th><td><strong><%= formattedCalculations.payoutAmount %> TL</strong></td></tr>
-                <tr><th>Resmi Net Ödendi</th><td><%= bordro.minimum_wage_paid ? "Evet" : "Hayır" %></td></tr>
-                <tr><th>Maaş Üstü Gönderildi</th><td><%= bordro.salary_extra_sent ? "Evet" : "Hayır" %></td></tr>
+                <tr>
+                    <th>Resmi Brüt Maaş</th><td><%= formattedCalculations.officialGrossSalary %> TL</td>
+                    <th>Toplam Brüt Kazanç</th><td><%= formattedCalculations.grossEarnings %> TL</td>
+                </tr>
+                <tr>
+                    <th>Günlük Brüt Ücret</th><td><%= formattedCalculations.dailyGross %> TL</td>
+                    <th>Saatlik Brüt Ücret</th><td><%= formattedCalculations.hourlyGross %> TL</td>
+                </tr>
+                <tr>
+                    <th>Mesai Gün Tutarı</th><td><%= formattedCalculations.overtimeDayGross %> TL</td>
+                    <th>Mesai Saat Tutarı</th><td><%= formattedCalculations.overtimeHourGross %> TL</td>
+                </tr>
+                <tr>
+                    <th>Toplam Mesai</th><td><%= formattedCalculations.overtimeGross %> TL</td>
+                    <th>Gelir Vergisi Matrahı</th><td><%= formattedCalculations.incomeTaxBase %> TL</td>
+                </tr>
+                <tr>
+                    <th>SGK İşçi Payı (%14)</th><td><%= formattedCalculations.sgkEmployee %> TL</td>
+                    <th>İşsizlik İşçi Payı (%1)</th><td><%= formattedCalculations.unemploymentEmployee %> TL</td>
+                </tr>
+                <tr>
+                    <th>Önceki Kümülatif Matrah</th><td><%= formattedCalculations.priorCumulativeTaxBase %> TL</td>
+                    <th>Yeni Kümülatif Matrah</th><td><%= formattedCalculations.cumulativeTaxBase %> TL</td>
+                </tr>
+                <tr>
+                    <th>Gelir Vergisi</th><td><%= formattedCalculations.incomeTax %> TL</td>
+                    <th>Damga Vergisi</th><td><%= formattedCalculations.stampTax %> TL</td>
+                </tr>
+                <tr>
+                    <th>Resmi Net Maaş</th><td><%= formattedCalculations.officialNetSalary %> TL</td>
+                    <th>Anlaşılan Toplam Maaş</th><td><%= Number(bordro.agreed_total_salary || 0).toFixed(2) %> TL</td>
+                </tr>
+                <tr>
+                    <th>Maaş Üstü</th><td><%= formattedCalculations.salaryExtraAmount %> TL</td>
+                    <th>Avans + İcra</th><td><%= (calculations.advancePayment + calculations.icraDeduction).toFixed(2) %> TL</td>
+                </tr>
+                <tr class="compact-total-row">
+                    <th>Personele Ödenecek Net</th><td><strong><%= formattedCalculations.payoutAmount %> TL</strong></td>
+                    <th>Ödeme Durumu</th><td><%= bordro.minimum_wage_paid ? "Resmi net ödendi" : "Resmi net bekliyor" %> / <%= bordro.salary_extra_sent ? "Maaş üstü gönderildi" : "Maaş üstü bekliyor" %></td>
+                </tr>
             </tbody>
         </table>
 

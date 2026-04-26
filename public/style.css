@@ -700,9 +700,28 @@ a.my-5 {
     box-shadow: var(--shadow-md);
 }
 
+.payroll-detail-sheet {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #abc8df;
+    border-top: 0;
+    background:
+        linear-gradient(180deg, rgba(15, 139, 141, .10), rgba(255, 255, 255, 0) 12rem),
+        var(--color-surface);
+}
+
+.payroll-detail-sheet::before {
+    content: "";
+    display: block;
+    height: .55rem;
+    margin: -2rem -2rem 1.5rem;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-warning));
+}
+
 .print-sheet h1 {
     margin: 0;
     font-size: 2rem;
+    color: var(--color-primary);
 }
 
 .print-sheet p {
@@ -714,6 +733,10 @@ a.my-5 {
     grid-template-columns: minmax(10rem, 16rem) 1fr;
     gap: .75rem;
     margin-top: 1.5rem;
+    padding: 1rem;
+    border: 1px solid #d6e6ef;
+    border-radius: 8px;
+    background: #f8fbfd;
 }
 
 .detail-grid span {
@@ -748,7 +771,11 @@ a.my-5 {
     justify-content: space-between;
     gap: 1rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid #bfd6e8;
+}
+
+.sheet-header p {
+    font-weight: 700;
 }
 
 .sheet-logo {
@@ -760,7 +787,7 @@ a.my-5 {
     margin: 1.5rem 0 .75rem;
     padding: .55rem .75rem;
     border-radius: 8px;
-    background: var(--color-surface-soft);
+    background: #e7f4f2;
     color: #0f513f;
     font-size: 1.15rem;
 }
@@ -769,9 +796,10 @@ a.my-5 {
     width: 100%;
     border-collapse: collapse;
     overflow: hidden;
-    border: 1px solid var(--color-border);
+    border: 1px solid #d6e6ef;
     border-radius: 8px;
     background: #fff;
+    box-shadow: 0 1px 0 rgba(15, 23, 42, .03);
 }
 
 .payroll-table th,
@@ -793,7 +821,7 @@ a.my-5 {
 
 .payroll-table th {
     width: 55%;
-    background: #f8fafc;
+    background: #f1f7fb;
     color: var(--color-muted);
 }
 
@@ -849,6 +877,14 @@ a.my-5 {
     width: 25%;
 }
 
+.payroll-detail-sheet .compact-table th {
+    width: 26%;
+}
+
+.payroll-detail-sheet .compact-table td {
+    width: 24%;
+}
+
 .compact-total-row th,
 .compact-total-row td {
     background: var(--color-surface-soft);
@@ -891,6 +927,14 @@ a.my-5 {
         border-top: 0;
         box-shadow: none;
         padding: 0;
+    }
+
+    .payroll-detail-sheet {
+        background: #fff;
+    }
+
+    .payroll-detail-sheet::before {
+        display: none;
     }
 
     .one-page-sheet {
@@ -936,6 +980,9 @@ a.my-5 {
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: .18rem .35rem;
         margin-top: .35rem;
+        padding: 0;
+        border: 0;
+        background: transparent;
         font-size: .68rem;
     }
 
