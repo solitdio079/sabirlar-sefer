@@ -64,7 +64,10 @@ async function getOdemeList(req,res){
         odemeList = await db.getAllOdeme()
         title = "Ödemeler"
     }
-    const toplam = odemeList.reduce((acc,curr) => acc+=parseInt(curr.payout),0)
+    const toplam = odemeList.reduce((acc,curr) => {
+        if(curr.pay_type !== "Nakit") return acc
+        return acc + parseInt(curr.payout)
+    },0)
      
     res.render("odemeList",{odemeList,title, toplam})
 }
